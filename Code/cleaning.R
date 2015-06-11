@@ -4,13 +4,21 @@
 
 ## Objective: Cleaning of the train and test data sets
 ## Data source: Crowdflower data on search queries and their results
+## install tm package if not already installed install.packages("tm")
+## install package readr install.packages("readr")
 ###################################################################################
+library(readr)
+library(tm)
 
+## Check the directory where this script is running from
+getwd()
 
 ## DATA EXPLORATION
+## below path may not be at the right location. user setwd("..path") 
+## to set it so that it matches the below path
 ## load the relevance training and test sets in R
-relevance.train <- read.csv("data files\\train.csv\\train.csv")
-relevance.test <- read.csv("data files\\test.csv\\test.csv")
+relevance.train <- read_csv("data files\\train.csv\\train.csv")
+relevance.test <- read_csv("data files\\test.csv\\test.csv")
 ## See the first row of each to get a peek at the data
 head(relevance.train,1)
 head(relevance.test,1)
