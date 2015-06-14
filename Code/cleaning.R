@@ -17,8 +17,8 @@ getwd()
 ## below path may not be at the right location. user setwd("..path") 
 ## to set it so that it matches the below path
 ## load the relevance training and test sets in R
-relevance.train <- read_csv("data files\\train.csv\\train.csv")
-relevance.test <- read_csv("data files\\test.csv\\test.csv")
+relevance.train <- read_csv("data files/train.csv/train.csv")
+relevance.test <- read_csv("data files/test.csv/test.csv")
 ## See the first row of each to get a peek at the data
 head(relevance.train,1)
 head(relevance.test,1)
@@ -35,7 +35,7 @@ relevance.train <- relevance.train[complete.cases(relevance.train$relevance_vari
 
 ## Replace the product descriptions with empty strings to <blank>
 ## Get a count first
-sum(relevance.train$product_desc == "")
+## sum(relevance.train$product_desc == "")
 
 ## TODO: Replace the product descriptions with empty string with <blank>
 
@@ -59,6 +59,36 @@ CleanTextData <- function(documents)
   corpus
 }
 
+# Fuction to take id, description and query_string and find full match (both/none/id/description)
+FindFullMatch <- function(query, title, desc)
+{
+  returnValue = "both";
+  ## for( i in length(strsplit(query, " ")))
+    matchFoundTitle = pmatch(as.vector(query),as.vector(title), 0)
+    matchFoundDesc = pmatch(as.vector(query),as.vector(desc), 0)
+    if(matchFoundTitle != 0L && matchFoundDesc  == 0L)
+    {
+      ##break;
+      returnValue = "title"
+    }
+    if(matchFoundTitle == 0L && matchFoundDesc  != 0L)
+    {
+      ##break;
+      returnValue = "desc"
+    }
+    if(matchFoundTitle == 0L && matchFoundDesc  == 0L)
+    {
+      ##break;
+      returnValue = "none"
+    }  
+  
+  return(returnValue)
+}
 
+## Unit Test
+test1 <- FindFullMatch("a b","a b c", "a b f") #both
+test2 <- FindFullMatch("a b","a b c", " a d f") #title
 
+test3 <- FindFullMatch("a b","a c", "a b d f") # desc
+test4 <- FindFullMatch("a b","a d c", " b d f") # none
 
