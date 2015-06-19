@@ -146,7 +146,7 @@ train.producttitle <- CleanTextData(relevance.train$product_title)
 train.productdesc <- CleanTextData(relevance.train$product_description)
 
 #change the column names and remove the first column
-train <- data.frame(query=train.query, title=train.producttitle, description=train.productdesc, stringsAsFactors = FALSE)
+train <- data.frame(query=train.query$text, title=train.producttitle$text, description=train.productdesc$text)
 
 ## Unit Test
 test1 <- FindFullMatch("a b","a b c", "a b f") #both
