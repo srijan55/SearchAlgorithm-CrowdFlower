@@ -10,7 +10,6 @@
 library(readr)
 library(tm)
 library(SnowballC)
-require(stringi)
 library(stringr)
 
 ## Check the directory where this script is running from
@@ -146,7 +145,8 @@ train.producttitle <- CleanTextData(relevance.train$product_title)
 train.productdesc <- CleanTextData(relevance.train$product_description)
 
 #change the column names and remove the first column
-train <- data.frame(query=train.query$text, title=train.producttitle$text, description=train.productdesc$text)
+train <- data.frame(query=train.query$text, title=train.producttitle$text, description=train.productdesc$text, stringsAsFactors = FALSE)
+
 
 ## Unit Test
 test1 <- FindFullMatch("a b","a b c", "a b f") #both
@@ -154,6 +154,8 @@ test2 <- FindFullMatch("a b","a b c", " a d f") #title
 
 test3 <- FindFullMatch("a b","a c", "a b d f") # desc
 test4 <- FindFullMatch("a b","a d c", " b d f") # none
+
+tt <- mapply(CompareTwoVectors, train$query, train$title)
 
 #how to call comparevectors
 #test = relevance.train[,c("query", "product_title")]
